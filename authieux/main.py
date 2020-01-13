@@ -23,6 +23,7 @@ logging.debug('Starting...')
 # Fetch the PD API token from PD_API_KEY_NAME key in SSM
 PD_API_KEY = os.getenv('PD_API_KEY', 'NO_KEY_PRESENT')
 SLACK_API_KEY = os.getenv('SLACK_API_KEY', 'NO_KEY_PRESENT')
+DATA_PATH = os.getenv('DATA_PATH', os.path.dirname(__file__))
 
 
 # Get the Current User on-call for a given schedule
@@ -219,8 +220,7 @@ def handler(event, context):
 def main():
     assert PD_API_KEY != "NO_KEY_PRESENT"
     assert SLACK_API_KEY != "NO_KEY_PRESENT"
-    script_dir = os.path.dirname(__file__)
-    with open(os.path.join(script_dir, 'data.json'), 'r') as f:
+    with open(os.path.join(DATA_PATH, 'data.json'), 'r') as f:
         items = json.load(f)
     threads = []
     for i in items:
